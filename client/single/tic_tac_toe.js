@@ -59,3 +59,15 @@ function checkWin(player) {
 function checkDraw() {
     return board.every((cell) => cell !== 0);
 }
+
+const resetButton = document.querySelector(".reset");
+
+resetButton.addEventListener("click", () => {
+    for (let i = 0; i < 9; i++) {
+        board[i] = 0;
+        boardElement.children[i].textContent = "";
+    }
+    currentPlayer = 1;
+    gameOver = false;
+    resultElement.textContent = "&nbsp;";
+});

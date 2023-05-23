@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tic Tac Toe</title>
+        <meta charset="utf-8" />
+        <style>
+            .container {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            .title {
+                font-size: 50px;
+                margin-top: 70px;
+            }
+            .board {
+                display: flex;
+                flex-wrap: wrap;
+                width: 300px;
+                border: 3px solid black;
+                margin-top: 50px;
+            }
+            .cell {
+                width: 100px;
+                height: 100px;
+                box-shadow: 0 0 0 3px black inset;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 40px;
+                font-weight: 700;
+                cursor: pointer;
+            }
+            .result {
+                font-size: 30px;
+                margin-top: 50px;
+            }
+            .buttons {
+                display: flex;
+                justify-content: space-between;
+                width: 120px;
+                align-items: center;
+                margin-top: 50px;
+            }
+        </style>
+        <script type="text/javascript" src="tic_tac_toe.js" defer></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="title">Tic Tac Toe</h1>
+            <div class="board"></div>
+            <div class="result">&nbsp;</div>
+            <div class="buttons">
+                <button class="reset">Reset</button>
+                <a href="../index.html"><button>Back</button></a>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,17 +1,22 @@
 package server
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type Server struct {
 	port int
+	db   *sql.DB
 }
 
-func New(port int) *Server {
+func New(port int, db *sql.DB) *Server {
 	return &Server{
 		port: port,
+		db:   db,
 	}
 }
 

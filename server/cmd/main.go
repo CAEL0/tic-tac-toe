@@ -10,17 +10,20 @@ import (
 )
 
 func main() {
-	envFile := "ENV_FILE"
-	envFilePath := os.Getenv(envFile)
-	if envFilePath == "" {
-		log.Fatalf("Environment variable (%s) is required.", envFile)
-	}
-	if loadError := godotenv.Load(envFilePath); loadError != nil {
-		log.Fatalf("Failed to load env file: %v", loadError)
-	}
+	loadEnvFile("ENV_FILE")
 	port := getIntVariable("PORT")
 	if serveError := server.New(port).ListenAndServe(); serveError != nil {
 		log.Fatalf("Failed toserver: %v", serveError)
+	}
+}
+
+func loadEnvFile(envFilename string) {
+	envFilePath := os.Getenv(envFilename)
+	if envFilePath == "" {
+		log.Fatalf("Environment variable (%s) is required.", envFilename)
+	}
+	if loadError := godotenv.Load(envFilePath); loadError != nil {
+		log.Fatalf("Failed to load env file: %v", loadError)
 	}
 }
 

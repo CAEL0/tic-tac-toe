@@ -1,6 +1,8 @@
 package main
 
 import (
+	"database/sql"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -12,7 +14,7 @@ import (
 func main() {
 	loadEnvFile("ENV_FILE")
 	port := getIntVariable("PORT")
-	if serveError := server.New(port).ListenAndServe(); serveError != nil {
+	if serveError := server.New(port, newDbClient()).ListenAndServe(); serveError != nil {
 		log.Fatalf("Failed toserver: %v", serveError)
 	}
 }
@@ -41,4 +43,19 @@ func getStringVariable(name string) string {
 		log.Fatalf("Failed to load %s", name)
 	}
 	return value
+}
+
+func newDbClient() *sql.DB {
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s",
+		getStringVariable("MYSQL_USERNAME"),
+		getStringVariable("MYSQL_PASSWORD"),
+		getStringVariable("MYSQL_URL"),
+		getStringVariable("MYSQL_SCHEMA"),
+	)
+	db, err := sql.Open("mysql", dataSourceName)
+	if err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+	}
+	defer db.Close()
+	return db
 }

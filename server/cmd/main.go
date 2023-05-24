@@ -15,8 +15,8 @@ func main() {
 	if envFilePath == "" {
 		log.Fatalf("Environment variable (%s) is required.", envFile)
 	}
-	if loadErr := godotenv.Load(envFilePath); loadErr != nil {
-		log.Fatalf("Failed to load env file: %v", loadErr)
+	if loadError := godotenv.Load(envFilePath); loadError != nil {
+		log.Fatalf("Failed to load env file: %v", loadError)
 	}
 	port := getIntVariable("PORT")
 	if serveError := server.New(port).ListenAndServe(); serveError != nil {
@@ -25,9 +25,9 @@ func main() {
 }
 
 func getIntVariable(name string) int {
-	value, err := strconv.ParseInt(os.Getenv(name), 10, 64)
-	if err != nil {
-		log.Fatalf("Failed to parse to int: %v", err)
+	value, parseError := strconv.ParseInt(os.Getenv(name), 10, 64)
+	if parseError != nil {
+		log.Fatalf("Failed to parse to int: %v", parseError)
 	}
 	return int(value)
 }

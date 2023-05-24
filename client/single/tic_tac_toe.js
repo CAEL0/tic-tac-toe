@@ -69,5 +69,5 @@ resetButton.addEventListener("click", () => {
     }
     currentPlayer = 1;
     gameOver = false;
-    resultElement.textContent = "&nbsp;";
+    resultElement.textContent = "\xa0";
 });

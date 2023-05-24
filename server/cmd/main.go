@@ -31,3 +31,11 @@ func getIntVariable(name string) int {
 	}
 	return int(value)
 }
+
+func getStringVariable(name string) string {
+	value := os.Getenv(name)
+	if value == "" {
+		log.Fatalf("Failed to load %s", name)
+	}
+	return value
+}

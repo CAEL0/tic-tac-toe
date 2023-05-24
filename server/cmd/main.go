@@ -18,11 +18,16 @@ func main() {
 	if loadErr := godotenv.Load(envFilePath); loadErr != nil {
 		log.Fatalf("Failed to load env file: %v", loadErr)
 	}
-	port, err := strconv.ParseInt(os.Getenv("PORT"), 10, 64)
-	if err != nil {
-		log.Fatalln("Failed to load PORT")
-	}
-	if serveError := server.New(int(port)).ListenAndServe(); serveError != nil {
+	port := getIntVariable("PORT")
+	if serveError := server.New(port).ListenAndServe(); serveError != nil {
 		log.Fatalf("Failed toserver: %v", serveError)
 	}
+}
+
+func getIntVariable(name string) int {
+	value, err := strconv.ParseInt(os.Getenv(name), 10, 64)
+	if err != nil {
+		log.Fatalf("Failed to parse to int: %v", err)
+	}
+	return int(value)
 }

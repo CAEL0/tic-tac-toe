@@ -3,8 +3,10 @@ package main
 import (
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/CAEL0/tic-tac-toe/server"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -13,8 +15,14 @@ func main() {
 	if envFilePath == "" {
 		log.Fatalf("Environment variable (%s) is required.", envFile)
 	}
-	port := 8080
-	if serveError := server.New(port).ListenAndServe(); serveError != nil {
+	if loadErr := godotenv.Load(envFilePath); loadErr != nil {
+		log.Fatalf("Failed to load env file: %v", loadErr)
+	}
+	port, err := strconv.ParseInt(os.Getenv("PORT"), 10, 64)
+	if err != nil {
+		log.Fatalln("Failed to load PORT")
+	}
+	if serveError := server.New(int(port)).ListenAndServe(); serveError != nil {
 		log.Fatalf("Failed toserver: %v", serveError)
 	}
 }

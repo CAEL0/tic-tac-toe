@@ -54,7 +54,7 @@ func newDbClient() *sql.DB {
 	)
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
-		log.Fatalf("%v", err)
+		log.Fatalf("Failed to connect to database: %v", err)
 	}
 	defer db.Close()
 	return db

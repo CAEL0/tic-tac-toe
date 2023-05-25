@@ -26,5 +26,8 @@ func (s *Server) ListenAndServe() error {
 	go hb.Run()
 
 	http.Handle("/", http.FileServer(http.Dir("client")))
+	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		hub.ServeWebsocket(hb, w, r)
+	})
 	return http.ListenAndServe(fmt.Sprintf(":%d", s.port), nil)
 }

@@ -15,3 +15,22 @@ window.addEventListener("DOMContentLoaded", (e) => {
         boardElement.appendChild(cell);
     }
 });
+
+window.updateBoard = function (boardState) {
+    board = boardState;
+    for (let i = 0; i < 9; i++) {
+        switch (board[i]) {
+            case 0:
+                boardElement.children[i].textContent = "";
+                break;
+            case 1:
+                boardElement.children[i].textContent = "O";
+                boardElement.children[i].style.color = "saddlebrown";
+                break;
+            case 2:
+                boardElement.children[i].textContent = "X";
+                boardElement.children[i].style.color = "sandybrown";
+                break;
+        }
+    }
+};

@@ -50,7 +50,12 @@ func (c *Client) readPump() {
 			log.Printf("Fail to read message: %v", err)
 			break
 		}
-		c.hub.broadcast <- message
+		var data int
+		if err := json.Unmarshal(message, &data); err != nil {
+			return
+		}
+		fmt.Println(data)
+		c.sendBoardState()
 	}
 }
 

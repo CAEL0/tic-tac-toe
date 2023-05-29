@@ -50,12 +50,13 @@ func (c *Client) readPump() {
 			log.Printf("Fail to read message: %v", err)
 			break
 		}
-		var data int
-		if err := json.Unmarshal(message, &data); err != nil {
-			return
+		var index int
+		if err := json.Unmarshal(message, &index); err != nil {
+			continue
 		}
-		fmt.Println(data)
-		c.sendBoardState()
+		if ok := c.board.UpdateState(index, 1); ok {
+			c.sendBoardState()
+		}
 	}
 }
 

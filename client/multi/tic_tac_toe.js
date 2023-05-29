@@ -34,3 +34,8 @@ window.updateBoard = function (boardState) {
         }
     }
 };
+
+function handleCellClick(e) {
+    const index = parseInt(e.target.dataset.index);
+    conn.send(JSON.stringify(index));
+}

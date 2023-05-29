@@ -1,6 +1,7 @@
 package hub
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -77,4 +78,12 @@ func (c *Client) writePump() {
 		}
 
 	}
+}
+
+func (c *Client) sendBoardState() {
+	state, err := json.Marshal(c.board.State())
+	if err != nil {
+		log.Fatalf("Fail to marshal data: %v", err)
+	}
+	c.hub.broadcast <- state
 }

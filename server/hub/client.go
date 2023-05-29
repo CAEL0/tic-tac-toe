@@ -5,13 +5,15 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/CAEL0/tic-tac-toe/server/board"
 	"github.com/gorilla/websocket"
 )
 
 type Client struct {
-	hub  *Hub
-	conn *websocket.Conn
-	send chan []byte
+	hub   *Hub
+	conn  *websocket.Conn
+	send  chan []byte
+	board *board.Board
 }
 
 var upgrader = websocket.Upgrader{
@@ -25,9 +27,10 @@ func ServeWebsocket(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Fail to upgrade: %v", err)
 	}
 	client := &Client{
-		hub:  hub,
-		conn: conn,
-		send: make(chan []byte, 256),
+		hub:   hub,
+		conn:  conn,
+		send:  make(chan []byte, 256),
+		board: board.New(),
 	}
 	hub.register <- client
 

@@ -49,8 +49,7 @@ func generateClientId(hub *Hub) string {
 		if err != nil {
 			log.Fatalf("Fail to generate uuid: %v", err)
 		}
-		_, exists := hub.clients[id]
-		if !exists {
+		if _, exists := hub.clients[id]; !exists {
 			return id
 		}
 	}

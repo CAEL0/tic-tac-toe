@@ -45,10 +45,10 @@ func ServeWebsocket(hub *Hub, w http.ResponseWriter, r *http.Request) {
 func generateClientId(hub *Hub) string {
 	for {
 		randomUuid, err := uuid.NewRandom()
-		id := randomUuid.String()
 		if err != nil {
 			log.Fatalf("Fail to generate uuid: %v", err)
 		}
+		id := randomUuid.String()
 		if _, exists := hub.clients[id]; !exists {
 			return id
 		}

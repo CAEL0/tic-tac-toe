@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/CAEL0/tic-tac-toe/server/board"
+	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 )
 
@@ -15,6 +16,7 @@ type Client struct {
 	conn  *websocket.Conn
 	send  chan []byte
 	board *board.Board
+	id    string
 }
 
 var upgrader = websocket.Upgrader{
@@ -32,11 +34,25 @@ func ServeWebsocket(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		conn:  conn,
 		send:  make(chan []byte, 256),
 		board: board.New(),
+		id:    generateClientId(hub),
 	}
 	hub.register <- client
 
 	go client.readPump()
 	go client.writePump()
+}
+
+func generateClientId(hub *Hub) string {
+	for {
+		randomUuid, err := uuid.NewRandom()
+		if err != nil {
+			log.Fatalf("Fail to generate uuid: %v", err)
+		}
+		id := randomUuid.String()
+		if _, exists := hub.clients[id]; !exists {
+			return id
+		}
+	}
 }
 
 func (c *Client) readPump() {

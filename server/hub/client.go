@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/CAEL0/tic-tac-toe/server/board"
+	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 )
 
@@ -37,6 +38,20 @@ func ServeWebsocket(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	go client.readPump()
 	go client.writePump()
+}
+
+func generateClientId(hub *Hub) string {
+	for {
+		randomUuid, err := uuid.NewRandom()
+		id := randomUuid.String()
+		if err != nil {
+			log.Fatalf("Fail to generate uuid: %v", err)
+		}
+		_, exists := hub.clients[id]
+		if !exists {
+			return id
+		}
+	}
 }
 
 func (c *Client) readPump() {

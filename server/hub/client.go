@@ -16,6 +16,7 @@ type Client struct {
 	conn  *websocket.Conn
 	send  chan []byte
 	board *board.Board
+	id    string
 }
 
 var upgrader = websocket.Upgrader{
@@ -33,6 +34,7 @@ func ServeWebsocket(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		conn:  conn,
 		send:  make(chan []byte, 256),
 		board: board.New(),
+		id:    generateClientId(hub),
 	}
 	hub.register <- client
 
